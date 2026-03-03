@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+            background-color: blanchedalmond;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+        .enfeite {
+            background-color: white;
+            padding: 40px 70px;
+            border-radius: 3%;
+            box-shadow: 0px 10px 0px 10px rgb(230, 230, 230);
+            transition: 0.2s ease;
+        }
+        .enfeite:hover {
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <div>
+            <% if(typeof msg != "undefined") { %>
+                <p id="msg" style="color: green; font-family: Arial, Helvetica, sans-serif; font-weight: bold; padding-bottom: 80px;">
+                    <%= msg %>
+                </p>
+
+                <script>
+                    setTimeout(function() {
+                        document.getElementById("msg").style.display = "none";
+
+                    }, 1000);
+                </script>
+            <% } %>
+        </div>
+    </div>
+    <div class="enfeite">
+        <h1>Bem-Vindo!😃</h1>
+    </div>
+</body>
+</html>
