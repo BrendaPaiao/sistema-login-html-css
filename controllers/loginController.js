@@ -1,5 +1,4 @@
-const email = "Bre@gmail.com";
-const senha = "1234";
+const UsuarioModel = require('../models/usuarioModel');
 
 class LoginController {
 
