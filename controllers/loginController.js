@@ -6,17 +6,22 @@ class LoginController {
         res.render('login');
     }
 
-    login(req, res) {
+    async login(req, res) {
 
-        const emailUso = req.body.email;
-        const senhaUso = req.body.senha;
         let msg = "";
 
-        if(emailUso === email && senhaUso === senha) 
-            res.redirect("/home");
-        else {
-            msg = "Preencha os campos corretamente!";
-            res.render('login', { msg });
+        if(req.body.email && req.body.senha){
+            let usuario = new UsuarioModel();
+
+            usuario = await usuario.buscaUsuarioLogin(req.body.email, req.body.senha);
+
+            if (usuario != null && usuario.usuAtivo === "S") {
+                res.redirect("/home");
+            }
+            else {
+                msg = "E-mail ou senha inválidos!";
+                res.render('login', { msg });
+            }
         }
     }
 
@@ -24,18 +29,24 @@ class LoginController {
         res.render('esqueciSenha');
     }
 
-    esqueciSenha(req, res) {
+    async esqueciSenha(req, res) {
 
-        const emailUso = req.body.email;
+        const emailUsu = req.body.email;
         let msg = "";
         let tipo = "";
 
-        if(emailUso.includes("@") && emailUso === email) {
-            msg = `Enviamos um link para recuperação de senha no e-mail ${emailUso}`;
-            tipo = "sucesso";
-        } else {
-            msg = "Por favor, digite o email corretamente!";
-            tipo = "erro";
+        if(emailUsu) {
+            let usuario = new UsuarioModel();
+
+            usuario = await usuario.buscaPorEmail(emailUsu);
+
+            if(emailUsu.includes("@") && usuario != null && emailUsu === usuario.usuEmail) {
+                msg = `Enviamos um link para recuperação de senha no e-mail ${emailUsu}`;
+                tipo = "sucesso";
+            } else {
+                msg = "Por favor, digite o email corretamente!";
+                tipo = "erro";
+            }
         }
 
         res.render('esqueciSenha', { msg, tipo });

@@ -68,13 +68,27 @@ class UsuarioModel {
         this.#perId = perId;
     }
 
-    async buscaUsuarioLogin() {
+    async buscaUsuarioLogin(email, senha) {
         let sql = "select * from tb_usuario where usu_email = ? and usu_senha = ?";
 
         let valores = [email, senha];
         let rows = await banco.ExecutaComando(sql, valores);
 
-        if(rows.length < 0) {
+        if(rows.length > 0) {
+            let row = rows[0];
+            return new UsuarioModel(row["usu_id"], row["usu_nome"], row["usu_email"], row["usu_senha"], row["usu_ativo"], row["per_id"]);
+        }
+
+        return null;
+    }
+
+    async buscaPorEmail(email) {
+        let sql = "select * from tb_usuario where usu_email = ?";
+
+        let valores = [email];
+        let rows = await banco.ExecutaComando(sql, valores);
+
+        if(rows.length > 0) {
             let row = rows[0];
             return new UsuarioModel(row["usu_id"], row["usu_nome"], row["usu_email"], row["usu_senha"], row["usu_ativo"], row["per_id"]);
         }
